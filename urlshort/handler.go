@@ -53,7 +53,7 @@ func YAMLHandler(yamlBytes []byte, fallback http.Handler) (http.HandlerFunc, err
 	return MapHandler(pathsToUrls, fallback), nil
 }
 
-type pathUrl struct {
+type pathURL struct {
 	Path string `yaml:"path"`
 	URL  string `yaml:"url"`
 }
