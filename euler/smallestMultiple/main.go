@@ -10,7 +10,11 @@ func main() {
 	flag.Parse()
 	result := *input
 	for {
-		if b, err := isEvenlyDivisible(result, *input); b && err == nil {
+		b, err := isEvenlyDivisible(result, *input)
+		if err != nil {
+			panic(err)
+		}
+		if b {
 			break
 		}
 		result++
