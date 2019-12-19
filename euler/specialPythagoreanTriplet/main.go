@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	max := flag.Int("max", 12, "a+b+c")
+	max := flag.Int("max", 1000, "a+b+c")
 	flag.Parse()
 	for i := 1; i < *max; i++ {
 		for j := i + 1; j < *max; j++ {
