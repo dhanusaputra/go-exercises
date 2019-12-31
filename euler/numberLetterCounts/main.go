@@ -18,7 +18,7 @@ var (
 
 func main() {
 	var res int
-	for i := 0; i <= 1000; i++ {
+	for i := 1; i <= 1000; i++ {
 		res += len(strings.Replace(numToWords(float64(i)), " ", "", -1))
 	}
 	fmt.Println(res)
