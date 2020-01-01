@@ -22,10 +22,10 @@ func getTringularNumber(n int) int {
 	return n * (n + 1) / 2
 }
 
-func getDivisors(in int) []int {
+func getDivisors(n int) []int {
 	var res []int
-	for i := 1; i <= in; i++ {
-		if in%i == 0 {
+	for i := 1; i <= n; i++ {
+		if n%i == 0 {
 			res = append(res, i)
 		}
 	}
