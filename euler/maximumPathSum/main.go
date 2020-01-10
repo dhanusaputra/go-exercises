@@ -1,5 +1,10 @@
 package main
 
+import (
+	"fmt"
+	"strings"
+)
+
 var triangle string = `75
 95 64
 17 47 82
@@ -17,5 +22,18 @@ var triangle string = `75
 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23`
 
 func main() {
+	slice, err := parseStringToSlice(triangle)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%v", slice)
+}
 
+func parseStringToSlice(s string) ([][]string, error) {
+	var res [][]string
+	ss := strings.Split(s, "\n")
+	for _, sss := range ss {
+		res = append(res, strings.Fields(sss))
+	}
+	return res, nil
 }
