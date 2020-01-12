@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"math"
+	"strconv"
 	"strings"
 )
 
@@ -22,18 +24,39 @@ var triangle string = `75
 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23`
 
 func main() {
-	slice, err := parseStringToSlice(triangle)
+	slice, err := parseStringToFloatSlice(triangle)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("%v", slice)
+	res, err := sumMaximumPath(slice)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", res)
 }
 
-func parseStringToSlice(s string) ([][]string, error) {
-	var res [][]string
+func parseStringToFloatSlice(s string) ([][]float64, error) {
+	var res [][]float64
 	ss := strings.Split(s, "\n")
 	for _, sss := range ss {
-		res = append(res, strings.Fields(sss))
+		var tmp []float64
+		for _, ssss := range strings.Fields(sss) {
+			fssss, err := strconv.ParseFloat(ssss, 64)
+			if err != nil {
+				panic(err)
+			}
+			tmp = append(tmp, fssss)
+		}
+		res = append(res, tmp)
 	}
 	return res, nil
+}
+
+func sumMaximumPath(n [][]float64) (float64, error) {
+	for i := len(n) - 2; i >= 0; i-- {
+		for j := 0; j <= i; j++ {
+			n[i][j] += math.Max(n[i+1][j], n[i+1][j+1])
+		}
+	}
+	return n[0][0], nil
 }
