@@ -1,15 +1,28 @@
 package main
 
 import (
+	"encoding/xml"
 	"flag"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 
 	"github.com/dhanusaputra/go-exercises/link"
 )
+
+const xmlns = "http://www.sitemaps.org/schemas/sitemap/0.9"
+
+type loc struct {
+	Value string `xml:"loc"`
+}
+
+type urlset struct {
+	Urls  []loc  `xml:"url"`
+	Xmlns string `xml:"xmlns,attr"`
+}
 
 func main() {
 	URLFlag := flag.String("url", "https://gophercises.com", "the url that you  want to build")
@@ -17,8 +30,18 @@ func main() {
 	flag.Parse()
 
 	pages := bfs(*URLFlag, *maxDepth)
+	toXML := urlset{
+		Xmlns: xmlns,
+	}
 	for _, page := range pages {
-		fmt.Println(page)
+		toXML.Urls = append(toXML.Urls, loc{page})
+	}
+
+	fmt.Println(xml.Header)
+	enc := xml.NewEncoder(os.Stdout)
+	enc.Indent("", "  ")
+	if err := enc.Encode(toXML); err != nil {
+		panic(err)
 	}
 }
 
@@ -30,13 +53,18 @@ func bfs(URLStr string, maxDepth int) []string {
 	}
 	for i := 0; i < maxDepth; i++ {
 		q, nq = nq, make(map[string]struct{})
+		if len(q) == 0 {
+			break
+		}
 		for url := range q {
 			if _, ok := seen[url]; ok {
 				continue
 			}
 			seen[url] = struct{}{}
 			for _, link := range get(url) {
-				nq[link] = struct{}{}
+				if _, ok := seen[link]; !ok {
+					nq[link] = struct{}{}
+				}
 			}
 		}
 	}
