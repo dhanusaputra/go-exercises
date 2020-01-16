@@ -8,12 +8,31 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"math"
 )
 
 func main() {
-	fmt.Println(getDivisors(220))
+	n := flag.Int("n", 10000, "sum of all the amicable numbers under ...")
+	flag.Parse()
+
+	divisors := make(map[float64][]float64)
+	for i := 1; i < *n; i++ {
+		divisors[float64(i)] = getDivisors(float64(i))
+	}
+	amicables := make(map[float64]float64)
+	for k, v := range divisors {
+		sum := getSumOfArray(v)
+		if val, ok := divisors[sum]; ok && k == getSumOfArray(val) && k != sum {
+			amicables[k] = sum
+		}
+	}
+	var sumAmicables float64
+	for _, v := range amicables {
+		sumAmicables += v
+	}
+	fmt.Println(sumAmicables)
 }
 
 func getDivisors(n float64) []float64 {
@@ -22,6 +41,14 @@ func getDivisors(n float64) []float64 {
 		if math.Mod(n, float64(i)) == 0 {
 			res = append(res, float64(i))
 		}
+	}
+	return res
+}
+
+func getSumOfArray(s []float64) float64 {
+	var res float64
+	for _, v := range s {
+		res += v
 	}
 	return res
 }
