@@ -29,7 +29,7 @@ func main() {
 }
 
 func parseTxt(path string) ([]string, error) {
-	file, err := os.Open("euler/namesScore/p022_names.txt")
+	file, err := os.Open(path)
 	if err != nil {
 		return nil, err
 	}

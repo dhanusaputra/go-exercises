@@ -31,7 +31,7 @@ func TestParseStringToFloatSlice(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := parseStringToFloatSlice(tt.args.s)
-			if tt.wantErr && err != nil {
+			if (err != nil) != tt.wantErr {
 				t.Errorf("parseStringToFloatSlice error = %+v, wantErr %+v", err, tt.wantErr)
 			}
 			if tt.wantErr && !reflect.DeepEqual(err.Error(), tt.wantErrMsg) {
@@ -68,7 +68,7 @@ func TestSumMaximumPath(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := sumMaximumPath(tt.args.f)
-			if tt.wantErr && err != nil {
+			if (err != nil) != tt.wantErr {
 				t.Errorf("sumMaximumPath() err = %+v, wantErr %+v", err, tt.wantErr)
 			}
 			if tt.wantErr && !reflect.DeepEqual(err.Error(), tt.wantErrMsg) {

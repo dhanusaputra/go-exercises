@@ -30,7 +30,7 @@ func TestGetFactorial(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := getFactorial(tt.args.n)
-			if tt.wantErr && err == nil {
+			if (err != nil) != tt.wantErr {
 				t.Errorf("getFactorial() err = %+v, wantErr %+v", err, tt.wantErr)
 			}
 			if tt.wantErr && !reflect.DeepEqual(err.Error(), tt.wantErrMsg) {
@@ -66,7 +66,7 @@ func TestSumOfCharDigits(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := sumOfCharDigits(tt.args.s)
-			if tt.wantErr && err == nil {
+			if (err != nil) != tt.wantErr {
 				t.Errorf("sumOfCharDigits() err = %+v, wantErr %+v", err, tt.wantErr)
 			}
 			if tt.wantErr && !reflect.DeepEqual(err.Error(), tt.wantErrMsg) {

@@ -38,7 +38,7 @@ func TestIsPrime(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := isPrime(tt.args.n)
-			if err != nil != tt.wantErr {
+			if (err != nil) != tt.wantErr {
 				t.Errorf("IsPrime() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if tt.wantErr && err.Error() != tt.wantErrMsg {
