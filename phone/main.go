@@ -7,7 +7,7 @@ import (
 
 	phonedb "github.com/dhanusaputra/go-exercises/phone/db"
 
-	_ "github.com/lib/pq"
+	_ "github.com/lib/pq" //need for postgres
 )
 
 const (

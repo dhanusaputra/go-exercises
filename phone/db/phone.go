@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	_ "github.com/lib/pq"
+	_ "github.com/lib/pq" //need for postgres
 )
 
 //Phone represents the phone_numbers table in the DB
