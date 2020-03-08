@@ -23,6 +23,20 @@ func (h Hand) DealerString() string {
 	return h[0].String() + ", **HIDDEN**"
 }
 
+//Score ...
+func (h Hand) Score() int {
+	minScore := h.MinScore()
+	if minScore > 11 {
+		return minScore
+	}
+	for _, c := range h {
+		if c.Rank == deck.Ace {
+			return minScore + 10
+		}
+	}
+	return minScore
+}
+
 //MinScore ...
 func (h Hand) MinScore() int {
 	var score int
@@ -61,9 +75,26 @@ func main() {
 			player = append(player, card)
 		}
 	}
+	for dealer.Score() <= 16 || (dealer.Score() == 17 && dealer.MinScore() != 17) {
+		card, cards = draw(cards)
+		dealer = append(dealer, card)
+	}
+	pScore, dScore := player.Score(), dealer.Score()
 	fmt.Println("==FINAL HANDS==")
-	fmt.Println("Player:", player, "\nScore:", player.MinScore())
-	fmt.Println("Dealer:", dealer, "\nScore:", dealer.MinScore())
+	fmt.Println("Player:", player, "\nScore:", pScore)
+	fmt.Println("Dealer:", dealer, "\nScore:", dScore)
+	switch {
+	case pScore > 21:
+		fmt.Println("You busted")
+	case dScore > 21:
+		fmt.Println("Dealer busted")
+	case pScore > dScore:
+		fmt.Println("You win")
+	case pScore < dScore:
+		fmt.Println("You lose")
+	case pScore == dScore:
+		fmt.Println("Draw")
+	}
 }
 
 func draw(cards []deck.Card) (deck.Card, []deck.Card) {
