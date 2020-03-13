@@ -1,4 +1,4 @@
-package aiblackjack
+package blackjack
 
 import (
 	"fmt"
@@ -8,6 +8,14 @@ import (
 
 //State ...
 type state uint8
+
+//New ...
+func New() Game {
+	return Game{
+		state:    statePlayerTurn,
+		dealerAI: dealerAI{},
+	}
+}
 
 //State details ...
 const (
@@ -24,6 +32,7 @@ type Game struct {
 	player   []deck.Card
 	dealer   []deck.Card
 	dealerAI dealerAI
+	balance  int
 }
 
 func (g *Game) currentPlayer() []deck.Card {
@@ -51,13 +60,12 @@ func deal(g *Game) {
 }
 
 //Play ...
-func (g *Game) Play(ai AI) {
+func (g *Game) Play(ai AI) int {
 	g.deck = deck.New(deck.Deck(3), deck.Shuffle)
 
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 2; i++ {
 		deal(g)
 
-		var input string
 		for g.state == statePlayerTurn {
 			hand := make([]deck.Card, len(g.player))
 			copy(hand, g.player)
@@ -74,6 +82,7 @@ func (g *Game) Play(ai AI) {
 
 		endHand(g, ai)
 	}
+	return g.balance
 }
 
 //Move ...
@@ -105,12 +114,16 @@ func endHand(g *Game, ai AI) {
 	switch {
 	case pScore > 21:
 		fmt.Println("You busted")
+		g.balance--
 	case dScore > 21:
 		fmt.Println("Dealer busted")
+		g.balance++
 	case pScore > dScore:
 		fmt.Println("You win")
+		g.balance++
 	case pScore < dScore:
 		fmt.Println("You lose")
+		g.balance--
 	case pScore == dScore:
 		fmt.Println("Draw")
 	}
