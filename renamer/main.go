@@ -30,7 +30,7 @@ func main() {
 			_, err := match(file.Name(), 0)
 			if err == nil {
 				count++
-				toRename = append(toRename, filepath.Join(dir, file.Name()))
+				toRename = append(toRename, file.Name())
 			}
 		}
 	}
