@@ -31,6 +31,7 @@ func main() {
 		filename := filepath.Base(oldPath)
 		newFilename, _ := match(filename)
 		newPath := filepath.Join(dir, newFilename)
+		fmt.Printf("mv %s => %s\n", oldPath, newPath)
 		if !dry {
 			err := os.Rename(oldPath, newPath)
 			if err != nil {
