@@ -50,3 +50,4 @@ builds/**/images/*
 # security / ssl
 *.pem
 *.xxjson
+.keys.json
