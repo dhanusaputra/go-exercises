@@ -33,13 +33,13 @@ func WithMode(mode Mode) func() []string {
 }
 
 // Transform ...
-func Transform(image io.Reader, numShapes int, opts ...func() []string) (io.Reader, error) {
-	in, err := tempfile("in_", "png")
+func Transform(image io.Reader, ext string, numShapes int, opts ...func() []string) (io.Reader, error) {
+	in, err := tempfile("in_", ext)
 	if err != nil {
 		return nil, err
 	}
 	defer os.Remove(in.Name())
-	out, err := tempfile("in_", "png")
+	out, err := tempfile("in_", ext)
 	if err != nil {
 		return nil, err
 	}
