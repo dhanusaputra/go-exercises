@@ -29,7 +29,7 @@ const (
 // WithMode ...
 func WithMode(mode Mode) func() []string {
 	return func() []string {
-		return []string{"-n", fmt.Sprintf("%d", mode)}
+		return []string{"-m", fmt.Sprintf("%d", mode)}
 	}
 }
 
@@ -70,7 +70,7 @@ func Transform(image io.Reader, ext string, numShapes int, opts ...func() []stri
 }
 
 func primitive(inputFile, outputFile string, numShapes int, args ...string) (string, error) {
-	argStr := fmt.Sprintf("-i %s -o %s -n %d -m %d", inputFile, outputFile, numShapes)
+	argStr := fmt.Sprintf("-i %s -o %s -n %d", inputFile, outputFile, numShapes)
 	args = append(strings.Fields(argStr), args...)
 	cmd := exec.Command("primitive", args...)
 	b, err := cmd.CombinedOutput()
